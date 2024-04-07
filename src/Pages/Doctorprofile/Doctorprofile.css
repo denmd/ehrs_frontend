@@ -1,0 +1,93 @@
+
+.patient-profile-container {
+    display: flex;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(85, 165, 211, 0.4);
+    
+  }
+  
+  .sidebar {
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(138, 197, 224);
+    
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 60px;
+    margin-top: 70px;
+   
+   
+  }
+  
+  .sidebar li {
+    cursor: pointer;
+    padding: 30px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 10px;
+    width: 100px;
+    height: 10px;
+    color: black;
+    font-weight: bold;
+    background-color: #7ca7dee2;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  .sidebar li:hover {
+    background-color: #a3d1e9;
+  }
+  
+  .main-content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image: url('img 8.jpg');
+    background-size:cover;
+  }
+  
+  .profile-picture {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-picture input[type="file"] {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  
+  .doctor-info {
+    text-align: center;
+  }
+  
+  .doctor-info h2 {
+    margin-bottom: 10px;
+  }
+  
+  h1 {
+    font-size: 3.4em;
+    color: #333;
+    margin-bottom: 30px;
+  }
