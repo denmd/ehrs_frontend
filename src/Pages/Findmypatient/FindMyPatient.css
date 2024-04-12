@@ -1,0 +1,74 @@
+.findmypatient-container {
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-image: url('img 8.jpg');
+  }
+  
+  h1 {
+    font-size: 3.4em;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .search-input {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .patient-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .patient-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 600px;
+    display: flex;
+  }
+  
+  .profile-icon {
+    margin-left: 20px;
+  }
+  
+  .profile-icon img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .patient-content {
+    width: 65%;
+    margin-left: auto;
+  }
+  
+  .patient-box h2 {
+    margin-bottom: 10px;
+  }
+  
+  .patient-box button {
+    margin-top: 10px;
+  }
+  .success-message {
+    position: absolute; /* Position the message absolutely */
+    top: 50%; /* Place it at the vertical center */
+    left: 50%; /* Place it at the horizontal center */
+    transform: translate(-50%, -50%); /* Center the message horizontally and vertically */
+    width: 80%; /* Set the width */
+    max-width: 400px; /* Limit the maximum width */
+    background-color: rgba(32, 165, 226, 0.5); /* Semi-transparent green background */
+    padding: 20px; /* Add some padding */
+    text-align: center; /* Center the text */
+    z-index: 1; /* Ensure it's above other content */
+  }
+  

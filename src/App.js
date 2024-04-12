@@ -14,7 +14,8 @@ import Addnewrecord from './Pages/Addnewrecord/addnewrecord';
 import Sample from './Pages/Sample/Sample';
 import PatientProfile from './Pages/PatientProfile/PatientProfile';
 import DoctorProfile from './Pages/Doctorprofile/Doctorprofile';
-
+import MypatientProfile from './Pages/Mypatient/Mypatient';
+import FindMyPatient from './Pages/Findmypatient/FindMyPatient';
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
       <Route path="/patientprofile" element={<PatientProfile />} />
       <Route path="/doctorprofile" element={<DoctorProfile />} />
       <Route path="/sample" element={<Sample />} />
-
+      <Route path="/mypatient" element={<MypatientProfile />} />
+      <Route path="/findmypatient" element={<FindMyPatient />} />
       
       </Routes>
     </Router>

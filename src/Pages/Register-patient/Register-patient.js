@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import axios for making HTTP requests
+import { useNavigate } from 'react-router-dom';
+
 import './Register-patient.css';
 
 const Registerpatient = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     age: '',
     gender: '',
     password: '',
-    confirmPassword: '',
+    EthereumAddress: '', // Make sure the name matches the backend
   });
 
   const [error, setError] = useState('');
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -33,9 +36,17 @@ const Registerpatient = () => {
     handleChange(e);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("heyy")
     e.preventDefault();
-    console.log('Registration data:', formData);
+    try {
+      // Make a POST request to your backend API endpoint
+      const response = await axios.post('http://127.0.0.1:8000/auth/patient/signup', formData);
+      console.log('Registration successful:', response.data);
+      navigate('/signin');
+    } catch (error) {
+      console.error('Registration error:', error);
+    }
   };
 
   return (
@@ -48,15 +59,15 @@ const Registerpatient = () => {
             <label className="label-full-name">Full Name:</label>
             <input
               type="text-regpatient"
-              name="fullName"
-              value={formData.fullName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group1">
-            <label className="label-email">Email Address:</label>
+            <label className="label-email">Email:</label>
             <input
               type="email"
               name="email"
@@ -64,7 +75,7 @@ const Registerpatient = () => {
               onChange={handleEmailChange}
               required
             />
-            {error && <p className="text-danger p-2 m-2">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
           </div>
 
           <div className="form-group1">
@@ -106,15 +117,16 @@ const Registerpatient = () => {
           </div>
 
           <div className="form-group1">
-            <label className="label-confirm-password">Confirm Password:</label>
+            <label className="etherum-address">Ethereum Address</label>
             <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
+              type="address"
+              name="EthereumAddress"
+              value={formData.EthereumAddress}
               onChange={handleChange}
               required
             />
           </div>
+
           <div className='btn_container_register'>
             <button type="submit">Register</button>
           </div>

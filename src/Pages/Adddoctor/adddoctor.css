@@ -90,8 +90,8 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 800px;
-  height: 20px;
+  width: 500px;
+  height:20px;
 }
 
 .search-container input {
@@ -149,4 +149,35 @@ h1 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.added-doctor-box {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.added-doctor-content {
+  margin-bottom: 10px;
+}
+
+.added-acess-button {
+  background-color: #007bff;
+  color: black;
+  border-color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.added-revoke-button {
+  background-color:rgb(180, 57, 57);
+  color: black;
+  border-color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.added-doctor-button:hover {
+  background-color: #0056b3;
 }

@@ -5,17 +5,14 @@ import './Register-medicalprofessional.css';
 const Registermedicalprofessional = () => {
   const navigate = useNavigate()
 
-  const Navigatetopatientprofile = () => {
-    navigate('/patientprofile')
-  }
 
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     specialization: '',
     phnno: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    EthereumAddress: '', 
   });
 
   const handleChange = (e) => {
@@ -34,11 +31,29 @@ const Registermedicalprofessional = () => {
     handleChange(e);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registration data:', formData);
+    try {
+      const response = await fetch('http://localhost:8000/auth/doctor/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (response.ok) {
+        navigate('/signin')
+      
+       
+      } else {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to register doctor');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setError(error.message || 'Failed to register doctor');
+    }
   };
-
   const [error, setError] = useState("");
 
   return (
@@ -51,8 +66,8 @@ const Registermedicalprofessional = () => {
             <label className="registration-label">Full Name:</label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
               className="registration-input"
@@ -118,18 +133,18 @@ const Registermedicalprofessional = () => {
           </div>
 
           <div className="form-group">
-            <label className="registration-label">Confirm Password:</label>
+            <label className="registration-label">Ethereum Address:</label>
             <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
+              type="text"
+              name="EthereumAddress"
+              value={formData.EthereumAddress}
               onChange={handleChange}
               required
               className="registration-input"
             />
           </div>
           <div className='btn_container_register'>
-            <button type="submit" onClick={Navigatetopatientprofile} className="registration-button">Register</button>
+          <button type="submit">Register</button>
           </div>
         </form>
       </div>
