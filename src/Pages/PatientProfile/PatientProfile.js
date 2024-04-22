@@ -16,7 +16,7 @@ const PatientProfile = () => {
     }
 
     
-    fetch('http://localhost:8000/patientprofile/user-profile', {
+    fetch('https://ehrs-backend.onrender.com/patientprofile/user-profile', {
       headers: {
         'Authorization': sessionToken, 
         'X-UserId': userId, 

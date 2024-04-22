@@ -16,7 +16,7 @@ const Signin = () => {
       // Choose the endpoint based on the selected role
       const endpoint = role === 'patient' ? '/auth/patient/signin' : '/auth/doctor/signin';
       
-      const response = await axios.post(`http://localhost:8000${endpoint}`, { name, password });
+      const response = await axios.post(`https://ehrs-backend.onrender.com${endpoint}`, { name, password });
       console.log('Login successful:', response.data);
 
       // Assuming the backend returns a session token and user ID
