@@ -11,7 +11,7 @@
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:8000/patientlist/get-patients', {
+          const response = await fetch('https://ehrs-backend.onrender.com/patientlist/get-patients', {
             headers: {
               'x-userid': userId // Include the user ID from local storage as a header
             }
@@ -31,7 +31,7 @@
         const userId = localStorage.getItem('userId');
         const owner = EthereumAddress; // Replace this with the actual patient Ethereum address
     
-        const response = await fetch('http://localhost:8000/contractRoutes/display', {
+        const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/display', {
           method: 'POST',
           headers: {
             'Content-Type':'application/json',

@@ -17,7 +17,7 @@ const DoctorProfile = () => {
       console.error('Session token or user ID not found');
       return;
     }
-    fetch('http://localhost:8000/patientprofile/user-profile', {
+    fetch('https://ehrs-backend.onrender.com/patientprofile/user-profile', {
       headers: {
         'Authorization': sessionToken,
         'X-UserId': userId,
@@ -30,7 +30,7 @@ const DoctorProfile = () => {
   const handleSignOut = async () => {
     try {
 
-      await axios.post('http://localhost:8000/auth/signout');
+      await axios.post('https://ehrs-backend.onrender.com/auth/signout');
       navigate('/')
       
     } catch (error) {

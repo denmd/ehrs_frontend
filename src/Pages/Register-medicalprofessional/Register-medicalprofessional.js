@@ -34,7 +34,7 @@ const Registermedicalprofessional = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/auth/doctor/signup', {
+      const response = await fetch('https://ehrs-backend.onrender.com/auth/doctor/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
