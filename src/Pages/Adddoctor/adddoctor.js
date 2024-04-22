@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './adddoctor.css';
-
+import { useNavigate } from 'react-router-dom';
 const Adddoctor = () => {
   const [searchValue, setSearchValue] = useState('');
   const [addedDoctors, setAddedDoctors] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [hasAccess, setHasAccess] = useState(false);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     fetchAddedDoctors();
   }, []);
@@ -44,7 +44,7 @@ const Adddoctor = () => {
       if (!response.ok) {
         throw new Error('Failed to update access');
       }
-      setHasAccess(true);
+    
     } catch (error) {
       console.error('Error updating access:', error);
     }
@@ -63,8 +63,7 @@ const Adddoctor = () => {
       if (!response.ok) {
         throw new Error('Failed to revoke access');
       }
-      // Update hasAccess to false after successful access revocation
-      setHasAccess(false);
+     
     } catch (error) {
       console.error('Error revoking access:', error);
     }
@@ -85,7 +84,7 @@ const Adddoctor = () => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        // Handle the search results here, e.g., set them in state or display them differently
+       
       } else if (data && data.name) {
       
       } else {
@@ -101,11 +100,14 @@ const Adddoctor = () => {
 
   return (
     <div className="adddoctor-container">
-      <div className="sidebar">
+      <div className="sidebar-adddoctor-container">
         <ul>
-          <li>Profile</li>
-          <li>Add Doctor</li>
-          <li>Add Record</li>
+          <li onClick={()=>{navigate('/patientprofile')}}>Profile</li>
+          <li>My Doctor</li>
+          <li onClick={()=>{navigate('/addnewrecord')}}>Add Record</li>
+          <li onClick={()=>{navigate('/')}}>Log Out</li>
+          
+
         </ul>
       </div>
       <div className="main-content">
@@ -128,7 +130,7 @@ const Adddoctor = () => {
       <div className="added-doctor-box" key={index}>
         <div className="added-doctor-content">
           <p>Name: {doctor.name}</p>
-          <p>Specialty: {doctor.specialty}</p>
+          <p>Specialty: {doctor.specialization}</p>
           <p>Ethereum Address: {doctor.EthereumAddress}</p>
         </div>
         

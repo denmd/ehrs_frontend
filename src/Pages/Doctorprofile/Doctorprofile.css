@@ -6,24 +6,25 @@
   background-color: rgba(85, 165, 211, 0.4);
 }
 
-.sidebar {
+.sidebar-doctor-profile-container {
   width: 350px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   background-color: rgb(138, 197, 224);
+  gap: 40px;
 }
 
-.sidebar ul {
+.sidebar-doctor-profile-container ul {
   list-style-type: none;
-  padding: 60px;
-  margin-top: 70px;
+  padding: 10px;
+  margin-top: 50px;
 }
 
-.sidebar li {
+.sidebar-doctor-profile-container li {
   cursor: pointer;
-  padding: 30px;
-  margin-bottom: 50px;
-  margin-top: 50px;
+  padding:30px;
+  margin-bottom: 30px;
   border-radius: 10px;
   width: 100px;
   height: 10px;
@@ -33,9 +34,10 @@
   display: flex;
   justify-content: center;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
-.sidebar li:hover {
+.sidebar-doctor-profile-container li:hover {
   background-color: #a3d1e9;
 }
 
@@ -51,37 +53,33 @@
 }
 
 .profile-picture {
-  position: relative;
-  margin-bottom: 10px;
+  align-self: center;
+  align-items: center;
+margin-top: 10px;
 }
 
 .profile-picture img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 130px;
+  height: 130px;
+ 
+
 }
 
-.profile-picture input[type="file"] {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  opacity: 0;
+.profile-info{
   width: 100%;
-  height: 100%;
-  cursor: pointer;
+  height: 70%;
+   display: flex;
+   flex-direction: column;
+   border: solid;
+   border-color: black;
+   
+   
 }
-
-.doctor-info {
+.doctor-details{
   text-align: center;
 }
-
-.doctor-info h2 {
-  margin-bottom: 10px;
-}
-
 h1 {
   font-size: 3.4em;
   color: #333;
-  margin-bottom: 30px;
+ 
 }

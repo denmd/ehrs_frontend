@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './Doctorprofile.css';
 import { useNavigate } from 'react-router-dom';
+import profileIcon from '../../assets/user_3237472.png';
+import axios from 'axios';
+
 
 const DoctorProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = localStorage.getItem('userId');
+  
   const navigate = useNavigate();
   useEffect(() => {
-    // Fetch session token from localStorage
+   
     const sessionToken = localStorage.getItem('sessionToken');
     if (!sessionToken || !userId) {
       console.error('Session token or user ID not found');
@@ -15,23 +19,36 @@ const DoctorProfile = () => {
     }
     fetch('http://localhost:8000/patientprofile/user-profile', {
       headers: {
-        'Authorization': sessionToken, // Include session token in Authorization header
-        'X-UserId': userId, // Include user ID in custom header
+        'Authorization': sessionToken,
+        'X-UserId': userId,
       },
     })
       .then(response => response.json())
       .then(data => setProfileData(data))
       .catch(error => console.error('Error fetching profile data:', error));
   }, [userId]);
+  const handleSignOut = async () => {
+    try {
+
+      await axios.post('http://localhost:8000/auth/signout');
+      navigate('/')
+      
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  }
 
   return (
     <div className="doctor-profile-container">
-      <div className="sidebar">
+      <div className="sidebar-doctor-profile-container">
         <ul>
   
           <li>Profile</li>
           <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
           <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
+          <li onClick={handleSignOut}>Log Out</li>
+          
+
          
         </ul>
       </div>
@@ -40,7 +57,7 @@ const DoctorProfile = () => {
         {profileData && (
           <div className="profile-info">
             <div className="profile-picture">
-              <img src={profileData.photo} alt="Profile" />
+              <img src={profileIcon} alt="Profile" />
               <input type="file" accept="image/*" />
             </div>
             <div className="doctor-details">

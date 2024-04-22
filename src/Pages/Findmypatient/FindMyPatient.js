@@ -31,7 +31,7 @@ const FindMyPatient = () => {
         // Clear success message after 3 seconds
         setTimeout(() => {
           setSuccessMessage('');
-        }, 3000);
+        }, 2000);
         // Optionally update the UI or perform other actions upon successful addition
       })
       .catch(error => console.error('Error adding patient:', error));

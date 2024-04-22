@@ -15,15 +15,14 @@
 
 .sidebarmypatient ul {
   list-style-type: none;
-  padding: 60px;
-  margin-top: 70px;
+  padding: 10px;
+  margin-top: 50px;
 }
 
 .sidebarmypatient li {
   cursor: pointer;
-  padding: 30px;
-  margin-bottom: 50px;
-  margin-top: 50px;
+  padding:30px;
+  margin-bottom: 30px;
   border-radius: 10px;
   width: 100px;
   height: 10px;
@@ -33,6 +32,7 @@
   display: flex;
   justify-content: center;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .sidebarmypatient li:hover {
@@ -48,41 +48,88 @@
   padding: 20px;
 }
 
-.profile-picture {
-  position: relative;
-  margin-bottom: 10px;
-}
-
-.profile-picture img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-picture input[type="file"] {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  opacity: 0;
-  width: 80%;
-  height: 40%;
-  cursor: pointer;
-}
 .patient-list{
- 
-}
-.patient-box {
-  height: 40%;
-  margin-bottom: 20px; 
   display: flex;
   flex-direction: column;
 }
 
-
-.patient-box button {
-  margin-top: 10px; /* Add margin between patient info and button */
+.patient-box{
+  min-height: 40%;
+  margin-bottom: 20px; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 20px;
+ 
+ 
 }
+
+.patient-info{
+
+  width:70%;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+.profile-icon{
+  align-self: center;
+}
+.profile-icon img{
+  width: 100px;
+  height: 100px;
+}
+.link{
+  width: 30%;
+  margin-left: 300px;
+  background-color: rgb(114, 114, 253);
+  font-weight: bold;
+  justify-content: center;
+  align-content: center;
+  border:solid;
+  border-radius: 8px;
+  border-color: rgb(44, 24, 90);
+}
+.link  a{
+  color:black; /* Set link text color */
+  text-decoration: none; /* Underline the link */
+  margin-top: 10px; /* Add space between the email and the link */
+  display: block; 
+  
+  
+    
+}
+.patient-box button {
+  margin-top: 10px; 
+   
+  /* Add margin between patient info and button */
+}
+
+
+.access-error-message-container {
+  height: 40px;
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+ /* Set the container height to full viewport height */
+  background-color:transparent; 
+  z-index: 1
+  /* Add a box shadow for the floor effect */
+}
+
+.access-error-message {
+  
+    position: absolute; /* Position the message absolutely */
+    top: 50%; /* Place it at the vertical center */
+    left: 60%; /* Place it at the horizontal center */
+    transform: translate(-50%, -50%); /* Center the message horizontally and vertically */
+    width: 80%; /* Set the width */
+    max-width: 400px; /* Limit the maximum width */
+    background-color: rgba(233, 2, 2, 0.5); /* Semi-transparent green background */
+    padding: 20px; /* Add some padding */
+    text-align: center; /* Center the text */
+    z-index: 1; /* Ensure it's above other content */
+  }
+  
 
 
 

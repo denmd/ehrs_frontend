@@ -1,0 +1,33 @@
+.patient-records-container {
+    margin: 20px;
+  }
+  
+  .record-lists {
+    width: 70%;
+    min-height: 40%;
+    border: solid;
+    border-radius: 7px;
+    list-style-type: none;
+    background-color: #7ca7dee2;;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .record-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .record-item h3 {
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+  
+  .record-item p {
+    margin: 0;
+    font-size: 14px;
+  }
+  

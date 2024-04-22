@@ -1,65 +1,107 @@
-import React, { useState, useEffect } from 'react';
-import './Mypatient.css';
+  import React, { useState, useEffect } from 'react';
+  import './Mypatient.css';
+  import { Link } from 'react-router-dom';
+  import { useNavigate } from 'react-router-dom';
+  import profileIcon from '../../assets/user_3237472.png';
+  const MypatientProfile = () => {
+    const [patients, setPatients] = useState([]);
+    const userId = localStorage.getItem('userId');
+    const [accessError, setAccessError] = useState(false);
+    const navigate = useNavigate();
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('http://localhost:8000/patientlist/get-patients', {
+            headers: {
+              'x-userid': userId // Include the user ID from local storage as a header
+            }
+          });
+          const jsonData = await response.json();
+          setPatients(jsonData.patients);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
 
-const MypatientProfile = () => {
-  const [patients, setPatients] = useState([]);
-  const userId = localStorage.getItem('userId');
+      fetchData();
+    }, [userId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+    const handleViewRecords = async (EthereumAddress) => {
       try {
-        const response = await fetch('http://localhost:8000/patientlist/get-patients', {
+        const userId = localStorage.getItem('userId');
+        const owner = EthereumAddress; // Replace this with the actual patient Ethereum address
+    
+        const response = await fetch('http://localhost:8000/contractRoutes/display', {
+          method: 'POST',
           headers: {
-            'x-userid': userId // Include the user ID from local storage as a header
-          }
+            'Content-Type':'application/json',
+            'x-userid': userId
+          },
+          body: JSON.stringify({ owner: owner })
         });
-        const jsonData = await response.json();
-        setPatients(jsonData.patients);
+    
+        if (response.ok) {
+          const recordsData = await response.json();
+          console.log(recordsData)
+          navigate('/records', { state: recordsData });
+        } else {
+          setAccessError(true);
+          setTimeout(() => {
+            setAccessError('');
+          }, 3000);
+          console.log('You do not have access to view records for this patient.');
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching records:', error);
       }
     };
+    
 
-    fetchData();
-  }, [userId]);
+    return (
+      <div className="mypatient-container">
+        <div className="sidebarmypatient">
+          <ul>
+            <li onClick={()=>{navigate('/doctorprofile')}}>Profile</li>
+            <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
+            <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
+            <li onClick={()=>{navigate('/mypatient')}}>Log Out</li>
 
-  const handleViewRecords = (patientId) => {
-    // Implement functionality to view records for the selected patient
-    console.log('View records for patient with ID:', patientId);
-  };
-
-  return (
-    <div className="mypatient-container">
-      <div className="sidebarmypatient">
-        <ul>
-          <li>Profile</li>
-          <li onClick={()=>{}}>Find Patients</li>
-          <li>My Patient</li>
-        </ul>
-      </div>
-     
-      <div className="main-content-mypatient">
-        <h1>My Patients</h1> 
-        
-        <div className="patient-list">
-          {patients.length === 0 ? (
-            <p>No patients found.</p>
-          ) : (
-            patients.map(patient => (
-              <div key={patient._id} className="patient-box">
-                <h2>NAME:{patient.name}</h2>
-                <h2>Age:{patient.age}</h2>
-                <h2>Gender:{patient.gender}</h2>
-                <h2>Email:{patient.email}</h2>
-                
-                <button onClick={() => handleViewRecords(patient.id)}>View Records</button>
-              </div>
-            ))
-          )}
+          </ul>
         </div>
+      
+        <div className="main-content-mypatient">
+          <h1>My Patients</h1> 
+          
+          <div className="patient-list">
+          {patients.length === 0 ? (
+  <p>No patients found.</p>
+) : (
+  patients.map(patient => (
+    <div key={patient._id} className="patient-box">
+      <div className="profile-icon">
+        {/* Include the profile icon here */}
+        <img src={profileIcon} alt={`Profile icon of ${patient.name}`} />
+      </div>
+      <div className="patient-info">
+        <h2>NAME: {patient.name}</h2>
+        <h2>Age: {patient.age}</h2>
+        <h2>Gender: {patient.gender}</h2>
+        <h2>Email: {patient.email}</h2>
+        <div className='link'><Link to="#" onClick={() => handleViewRecords(patient.EthereumAddress)}>View Records</Link></div>
       </div>
     </div>
-  );
-};
+      
+  ))
+)}
 
-export default MypatientProfile;
+          </div>
+           {accessError &&<div className="access-error-message-container">
+          <p className="access-error-message">You do not have access to view records for this patient.</p>
+        </div>}
+        </div>
+       
+      </div>
+    );
+  };
+
+  export default MypatientProfile;

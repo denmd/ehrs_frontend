@@ -11,12 +11,11 @@ import Choicepage2 from './Pages/Choicepage2/choicepage2';
 import Adddoctor from './Pages/Adddoctor/adddoctor';
 import Addrecord from './Pages/Addrecord/addrecord';
 import Addnewrecord from './Pages/Addnewrecord/addnewrecord';
-import Sample from './Pages/Sample/Sample';
 import PatientProfile from './Pages/PatientProfile/PatientProfile';
 import DoctorProfile from './Pages/Doctorprofile/Doctorprofile';
 import MypatientProfile from './Pages/Mypatient/Mypatient';
 import FindMyPatient from './Pages/Findmypatient/FindMyPatient';
-
+import Viewrecords from './Pages/Viewrecords/Viewrecords.js'
 
 function App() {
   return (
@@ -35,9 +34,9 @@ function App() {
       <Route path="/addnewrecord" element={<Addnewrecord />} />
       <Route path="/patientprofile" element={<PatientProfile />} />
       <Route path="/doctorprofile" element={<DoctorProfile />} />
-      <Route path="/sample" element={<Sample />} />
       <Route path="/mypatient" element={<MypatientProfile />} />
       <Route path="/findmypatient" element={<FindMyPatient />} />
+      <Route path="/records" element={<Viewrecords  />} />
       
       </Routes>
     </Router>

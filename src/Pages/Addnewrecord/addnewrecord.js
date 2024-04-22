@@ -1,12 +1,28 @@
-import React from 'react';
-
+import {React} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './addnewrecord.css';
 
 const Addnewrecord = () => {
   const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
- 
+  const navigate = useNavigate();
+  
+  const handleViewAllRecords = async () => {
+    const patientId=userId
+    try {
+      const response = await fetch(`http://localhost:8000/medical-record/files/${patientId}`);
+      if (response.ok) {
+        const data = await response.json();
+       
+        navigate('/records', { state: data });
+      } else {
+        console.error('Error fetching records:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching records:', error);
+    }
+  };
 
-  // Function to handle form submission
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -16,22 +32,22 @@ const Addnewrecord = () => {
         return;
       }
 
-      // Get form data
+      
       const title = e.target.elements.title.value;
       const description = e.target.elements.description.value;
-      const file = e.target.elements.document.files[0]; // Get the selected file
+      const file = e.target.elements.document.files[0]; 
 
-      // Create form data object
+  
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
-      formData.append('document', file);
+      formData.append('file', file);
 
-      // Make API request to backend
+      
       const response = await fetch('http://localhost:8000/medical-record/upload', {
         method: 'POST',
         headers: {
-          'Authorization': sessionToken, // Include session token in Authorization header
+          'Authorization': sessionToken, 
           'X-UserId': userId, // Include user ID in custom header
         },
         body: formData, // Pass form data object
@@ -54,9 +70,10 @@ const Addnewrecord = () => {
     <div className="addnewrecord-container">
      <div className="sidebar">
         <ul>
-          <li>Profile</li>
-          <li>Add Doctor</li>
+          <li onClick={()=>{navigate('/patientprofile')}}>My Profile</li>
+          <li onClick={()=>{navigate('/adddoctor')}}>My Doctor</li>
           <li>Add Record</li>
+          <li onClick={()=>{navigate('/')}}>Log Out</li>
         </ul>
       </div>
       <div className="main-content-newrecord">
@@ -67,7 +84,9 @@ const Addnewrecord = () => {
           <input type="file" id="document-upload" name="document" accept=".pdf,.doc,.docx" /> <br />
           <button type="submit" className='done-button'>Done</button>
         </form>
+        <button type="submit" className='all-records' onClick={handleViewAllRecords}> View All records</button>
       </div>
+   
     </div>
   );
 };
