@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './Signin.css';
 
 const Signin = () => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('patient'); // Default role is 'patient'
   const [error, setError] = useState('');
@@ -16,7 +16,7 @@ const Signin = () => {
       // Choose the endpoint based on the selected role
       const endpoint = role === 'patient' ? '/auth/patient/signin' : '/auth/doctor/signin';
       
-      const response = await axios.post(`https://ehrs-backend.onrender.com${endpoint}`, { name, password });
+      const response = await axios.post(`https://ehrs-backend.onrender.com${endpoint}`, { email, password });
       console.log('Login successful:', response.data);
 
       // Assuming the backend returns a session token and user ID
@@ -40,16 +40,16 @@ const Signin = () => {
         <h1 className="signin-heading">Sign in</h1>
         <div className='form-content'>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username" className="label-signin-username">Username:</label>
+            <label htmlFor="username" className="label-signin-username">Email:</label>
             <input 
               type="text" 
-              id="username" 
-              name="name" 
+              id="email" 
+              name="email" 
               className="input-signin-username" 
               placeholder="Enter your username" 
               required 
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="password" className="label-signin-password">Password:</label>
             <input 
