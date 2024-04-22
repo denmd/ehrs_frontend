@@ -9,7 +9,7 @@ const Addnewrecord = () => {
   const handleViewAllRecords = async () => {
     const patientId=userId
     try {
-      const response = await fetch(`http://localhost:8000/medical-record/files/${patientId}`);
+      const response = await fetch(`https://ehrs-backend.onrender.com/medical-record/files/${patientId}`);
       if (response.ok) {
         const data = await response.json();
        
@@ -44,7 +44,7 @@ const Addnewrecord = () => {
       formData.append('file', file);
 
       
-      const response = await fetch('http://localhost:8000/medical-record/upload', {
+      const response = await fetch('https://ehrs-backend.onrender.com/medical-record/upload', {
         method: 'POST',
         headers: {
           'Authorization': sessionToken, 

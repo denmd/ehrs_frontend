@@ -35,7 +35,7 @@ const PatientProfile = () => {
   const handleSignOut = async () => {
     try {
      
-      await axios.post('http://localhost:8000/auth/signout');
+      await axios.post('https://ehrs-backend.onrender.com/auth/signout');
       navigate('/')
       
     } catch (error) {

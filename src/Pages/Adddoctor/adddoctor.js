@@ -14,7 +14,7 @@ const Adddoctor = () => {
   const fetchAddedDoctors = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch('http://localhost:8000/Doctorlist/mydoctors', {
+      const response = await fetch('https://ehrs-backend.onrender.com/Doctorlist/mydoctors', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const Adddoctor = () => {
   const handleAccessClick = async ( EthereumAddress) => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch('http://localhost:8000/contractRoutes/allow', {
+      const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/allow', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Adddoctor = () => {
   const handleRevokeClick = async (EthereumAddress) => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch('http://localhost:8000/contractRoutes/disallow', {
+      const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/disallow', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const Adddoctor = () => {
   const handleSearch = async () => {
     const userId = localStorage.getItem('userId');
     try {
-      const response = await fetch(`http://localhost:8000/Doctorlist/doctors?query=${searchValue}`, {
+      const response = await fetch(`https://ehrs-backend.onrender.com/Doctorlist/doctors?query=${searchValue}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
