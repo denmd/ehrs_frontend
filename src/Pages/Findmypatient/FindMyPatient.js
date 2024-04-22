@@ -9,7 +9,7 @@ const FindMyPatient = () => {
 
   useEffect(() => {
     // Fetch list of all patients from backend
-    fetch('http://localhost:8000/patientlist/patients') // Assuming backend runs on localhost:8000
+    fetch('https://ehrs-backend.onrender.com/patientlist/patients') // Assuming backend runs on localhost:8000
       .then(response => response.json())
       .then(data => setPatients(data))
       .catch(error => console.error('Error fetching patients:', error));
@@ -17,7 +17,7 @@ const FindMyPatient = () => {
 
   const handleAddToMyPatient = (patientId) => {
     const userId = localStorage.getItem('userId');
-    fetch('http://localhost:8000/patientlist/add-patient', {
+    fetch('https://ehrs-backend.onrender.com/patientlist/add-patient', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
