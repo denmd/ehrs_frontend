@@ -5,6 +5,7 @@ const Adddoctor = () => {
   const [searchValue, setSearchValue] = useState('');
   const [addedDoctors, setAddedDoctors] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [accounts, setAccounts] = useState([]);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -96,7 +97,20 @@ const Adddoctor = () => {
     }
   };
 
- 
+  const connectMetaMask = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      if (!accounts[0]) throw new Error("No metamask account found!");
+      console.log(accounts)
+      console.log('eyy2')
+      setAccounts(accounts);
+      console.log(accounts)
+    } catch (error) {
+      console.error('Error connecting to MetaMask:', error);
+    }
+  };
 
   return (
     <div className="adddoctor-container">
@@ -106,6 +120,11 @@ const Adddoctor = () => {
           <li>My Doctor</li>
           <li onClick={()=>{navigate('/addnewrecord')}}>Add Record</li>
           <li onClick={()=>{navigate('/')}}>Log Out</li>
+          <li>
+          <button onClick={connectMetaMask} disabled={accounts.length > 0}>
+              {accounts.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
+            </button>
+          </li>
           
 
         </ul>
