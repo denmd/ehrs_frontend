@@ -86,3 +86,7 @@ input[type='file'] {
   width: 30%;
   background-color: rgba(75, 68, 66, 0.699);
 }
+
+.success-message{
+  background-color: brown;
+}

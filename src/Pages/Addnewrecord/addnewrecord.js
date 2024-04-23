@@ -1,18 +1,18 @@
-import {React} from 'react';
+import { React ,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './addnewrecord.css';
 
 const Addnewrecord = () => {
   const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
   const navigate = useNavigate();
-  
+  const [successMessage, setSuccessMessage] =useState('');
+
   const handleViewAllRecords = async () => {
-    const patientId=userId
+    const patientId = userId;
     try {
       const response = await fetch(`https://ehrs-backend.onrender.com/medical-record/files/${patientId}`);
       if (response.ok) {
         const data = await response.json();
-       
         navigate('/records', { state: data });
       } else {
         console.error('Error fetching records:', response.statusText);
@@ -22,7 +22,6 @@ const Addnewrecord = () => {
     }
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,22 +31,19 @@ const Addnewrecord = () => {
         return;
       }
 
-      
       const title = e.target.elements.title.value;
       const description = e.target.elements.description.value;
-      const file = e.target.elements.document.files[0]; 
+      const file = e.target.elements.document.files[0];
 
-  
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
       formData.append('file', file);
 
-      
       const response = await fetch('https://ehrs-backend.onrender.com/medical-record/upload', {
         method: 'POST',
         headers: {
-          'Authorization': sessionToken, 
+          'Authorization': sessionToken,
           'X-UserId': userId, // Include user ID in custom header
         },
         body: formData, // Pass form data object
@@ -55,10 +51,11 @@ const Addnewrecord = () => {
 
       // Check if request was successful
       if (response.ok) {
-        console.log('Record added successfully');
+        setSuccessMessage('Record added successfully');
         // Redirect user to another page
-      // Redirect to home page or another appropriate route
+        // Redirect to home page or another appropriate route
       } else {
+        setSuccessMessage('Record added failed');
         console.error('Error adding record:', response.statusText);
       }
     } catch (error) {
@@ -68,12 +65,12 @@ const Addnewrecord = () => {
 
   return (
     <div className="addnewrecord-container">
-     <div className="sidebar">
+      <div className="sidebar">
         <ul>
-          <li onClick={()=>{navigate('/patientprofile')}}>My Profile</li>
-          <li onClick={()=>{navigate('/adddoctor')}}>My Doctor</li>
+          <li onClick={() => { navigate('/patientprofile') }}>My Profile</li>
+          <li onClick={() => { navigate('/adddoctor') }}>My Doctor</li>
           <li>Add Record</li>
-          <li onClick={()=>{navigate('/')}}>Log Out</li>
+          <li onClick={() => { navigate('/') }}>Log Out</li>
         </ul>
       </div>
       <div className="main-content-newrecord">
@@ -84,9 +81,10 @@ const Addnewrecord = () => {
           <input type="file" id="document-upload" name="document" accept=".pdf,.doc,.docx" /> <br />
           <button type="submit" className='done-button'>Done</button>
         </form>
+        
         <button type="submit" className='all-records' onClick={handleViewAllRecords}> View All records</button>
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </div>
-   
     </div>
   );
 };
