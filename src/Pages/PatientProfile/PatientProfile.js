@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './PatientProfile.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Web3 from 'web3'; // Import Web3 library
 
 const PatientProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
@@ -28,14 +26,7 @@ const PatientProfile = () => {
       .then(data => setProfileData(data))
       .catch(error => console.error('Error fetching profile data:', error));
 
-    // Check if MetaMask is installed
-    if (window.ethereum) {
-      const web3Instance = new Web3(window.ethereum);
-      setWeb3(web3Instance);
-     
-    } else {
-      console.log('MetaMask not found!');
-    }
+      console.log('dnd')
   }, [userId]);
 
   const handleRecordsClick = () => {
@@ -56,14 +47,15 @@ const PatientProfile = () => {
   };
 
   const connectMetaMask = async () => {
-    if (!web3) {
-      console.error('Web3 not initialized!');
-      return;
-    }
     try {
-      await window.ethereum.enable();
-      const accounts = await web3.eth.getAccounts();
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      if (!accounts[0]) throw new Error("No metamask account found!");
+      console.log(accounts)
+      console.log('eyy2')
       setAccounts(accounts);
+      console.log(accounts)
     } catch (error) {
       console.error('Error connecting to MetaMask:', error);
     }
