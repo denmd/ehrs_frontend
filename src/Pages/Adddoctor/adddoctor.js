@@ -154,9 +154,9 @@ const Adddoctor = () => {
         </div>
         
         {doctor.hasAccess ? (
-                  <button className='added-revoke-button ' onClick={() => handleRevokeClick(doctor.EthereumAddress)}>Revoke</button>
+                  <button className='added-revoke-button ' onClick={() => handleRevokeClick(accounts)}>Revoke</button>
                 ) : (
-                  <button className='added-acess-button' onClick={() => handleAccessClick(doctor.EthereumAddress)}>Allow Access</button>
+                  <button className='added-acess-button' onClick={() => handleAccessClick(accounts)}>Allow Access</button>
                 )}
               
       </div>
