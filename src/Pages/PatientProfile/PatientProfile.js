@@ -52,10 +52,8 @@ const PatientProfile = () => {
         method: "eth_requestAccounts",
       });
       if (!accounts[0]) throw new Error("No metamask account found!");
-      console.log(accounts)
-      console.log('eyy2')
       setAccounts(accounts);
-      console.log(accounts)
+    
     } catch (error) {
       console.error('Error connecting to MetaMask:', error);
     }

@@ -5,7 +5,7 @@ const Adddoctor = () => {
   const [searchValue, setSearchValue] = useState('');
   const [addedDoctors, setAddedDoctors] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [accounts, setAccounts] = useState([]);
+  const [account, setAccount] = useState('');
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -103,10 +103,10 @@ const Adddoctor = () => {
         method: "eth_requestAccounts",
       });
       if (!accounts[0]) throw new Error("No metamask account found!");
-      console.log(accounts)
-      console.log('eyy2')
-      setAccounts(accounts);
-      console.log(accounts)
+      console.log(accounts[0]);
+      const data= accounts[0]
+      setAccount(data);
+      console.log(account)
     } catch (error) {
       console.error('Error connecting to MetaMask:', error);
     }
@@ -121,8 +121,8 @@ const Adddoctor = () => {
           <li onClick={()=>{navigate('/addnewrecord')}}>Add Record</li>
           <li onClick={()=>{navigate('/')}}>Log Out</li>
           <li>
-          <button onClick={connectMetaMask} disabled={accounts.length > 0}>
-              {accounts.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
+          <button onClick={connectMetaMask} disabled={account.length > 0}>
+              {account.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
             </button>
           </li>
           
@@ -154,9 +154,9 @@ const Adddoctor = () => {
         </div>
         
         {doctor.hasAccess ? (
-                  <button className='added-revoke-button ' onClick={() => handleRevokeClick(accounts)}>Revoke</button>
+                  <button className='added-revoke-button ' onClick={() => handleRevokeClick(doctor.EthereumAddress)}>Revoke</button>
                 ) : (
-                  <button className='added-acess-button' onClick={() => handleAccessClick(accounts)}>Allow Access</button>
+                  <button className='added-acess-button' onClick={() => handleAccessClick(doctor.EthereumAddress)}>Allow Access</button>
                 )}
               
       </div>
