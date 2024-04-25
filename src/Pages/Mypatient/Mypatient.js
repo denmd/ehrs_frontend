@@ -4,6 +4,7 @@
   import { useNavigate } from 'react-router-dom';
   import profileIcon from '../../assets/user_3237472.png';
   import useWeb3 from '../../components/Metamaskbtn';
+  import axios from 'axios';
   const MypatientProfile = () => {
     const [patients, setPatients] = useState([]);
     const userId = localStorage.getItem('userId');
@@ -79,29 +80,28 @@
           return;
         }
   
-       const result= await contract.methods.display(owner).send({ from: accoun });
-       console.log("r1")
-        console.log(result)
-        const hexString = result.logs[0].data;
-        console.log(hexString)
-        const strippedString = hexString.slice(2);
-
-        // Convert hex string to ASCII string
-        const decodedString = web3.utils.hexToAscii(strippedString);
-        console.log(decodedString)
-        
-        // if (response.ok) {
-        //   const recordsData = await response.json();
-        //   console.log(recordsData)
-        //   navigate('/records', { state: recordsData });
-        // } else {
-        //   setAccessError(true);
-        //   setTimeout(() => {
-        //     setAccessError('');
-        //   }, 3000);
-        //   console.log('You do not have access to view records for this patient.');
-        // }
+        const result= await contract.methods.display(owner).call({ from: accoun });
+       console.log(result)
+        const patientId=result[0]
+        console.log(patientId)
+        const filesResponse = await axios.get(`https://ehrs-backend.onrender.com/medical-record/files/${patientId}`);
+        if (filesResponse.status === 200) {
+          const recordsData = filesResponse.data;
+          console.log('Records data:', recordsData);
+          navigate('/records', { state: recordsData });
+        } else {
+          setAccessError(true);
+          setTimeout(() => {
+            setAccessError(false);
+          }, 3000);
+          console.log('You do not have access to view records for this patient.');
+        }
       } catch (error) {
+        setAccessError(true);
+          setTimeout(() => {
+            setAccessError(false);
+          }, 3000);
+          console.log('You do not have access to view records for this patient.');
         console.error('Error fetching records:', error);
       }
     };
