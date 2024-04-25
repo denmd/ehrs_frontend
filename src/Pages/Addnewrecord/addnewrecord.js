@@ -1,12 +1,13 @@
 import { React ,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './addnewrecord.css';
-
+import useWeb3 from '../../components/Metamaskbtn';
 const Addnewrecord = () => {
   const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
   const navigate = useNavigate();
   const [successMessage, setSuccessMessage] =useState('');
-
+  const { web3, contract, connectMetaMask } = useWeb3();
+  const [account, setAccount] = useState('');
   const handleViewAllRecords = async () => {
     const patientId = userId;
     try {
@@ -48,12 +49,34 @@ const Addnewrecord = () => {
         },
         body: formData, // Pass form data object
       });
+      const data = await response.json();
+      const { patientId } = data;
+      console.log(patientId); //
+      if (!web3) {
+        console.error('Web3 not initialized!');
+        return;
+      }
 
-      // Check if request was successful
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      setAccount(accounts[0]);
+      const accoun=accounts[0]
+      console.log(accoun)
+      console.log("Connected account:", accoun);
+      // const web3Instance = new Web3(window.ethereum);
+      // setWeb3(web3Instance);
+
+      if (!contract) {
+        console.error('Contract not initialized!');
+        return;
+      }
+      const url=userId
+      await contract.methods.add(accoun,url).send({ from: accoun });
+      console.log("recorder added to blockchain");
       if (response.ok) {
         setSuccessMessage('Record added successfully');
-        // Redirect user to another page
-        // Redirect to home page or another appropriate route
+       
       } else {
         setSuccessMessage('Record added failed');
         console.error('Error adding record:', response.statusText);

@@ -3,11 +3,14 @@
   import { Link } from 'react-router-dom';
   import { useNavigate } from 'react-router-dom';
   import profileIcon from '../../assets/user_3237472.png';
+  import useWeb3 from '../../components/Metamaskbtn';
   const MypatientProfile = () => {
     const [patients, setPatients] = useState([]);
     const userId = localStorage.getItem('userId');
     const [accessError, setAccessError] = useState(false);
+    const [account, setAccount] = useState('');
     const navigate = useNavigate();
+    const { web3, contract, connectMetaMask } = useWeb3();
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -26,31 +29,78 @@
       fetchData();
     }, [userId]);
 
+    // const handleViewRecords = async (EthereumAddress) => {
+    //   try {
+    //     const userId = localStorage.getItem('userId');
+    //     const owner = EthereumAddress; // Replace this with the actual patient Ethereum address
+    
+    //     const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/display', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type':'application/json',
+    //         'x-userid': userId
+    //       },
+    //       body: JSON.stringify({ owner: owner })
+    //     });
+    
+    //     if (response.ok) {
+    //       const recordsData = await response.json();
+    //       console.log(recordsData)
+    //       navigate('/records', { state: recordsData });
+    //     } else {
+    //       setAccessError(true);
+    //       setTimeout(() => {
+    //         setAccessError('');
+    //       }, 3000);
+    //       console.log('You do not have access to view records for this patient.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching records:', error);
+    //   }
+    // };
     const handleViewRecords = async (EthereumAddress) => {
       try {
         const userId = localStorage.getItem('userId');
         const owner = EthereumAddress; // Replace this with the actual patient Ethereum address
-    
-        const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/display', {
-          method: 'POST',
-          headers: {
-            'Content-Type':'application/json',
-            'x-userid': userId
-          },
-          body: JSON.stringify({ owner: owner })
-        });
-    
-        if (response.ok) {
-          const recordsData = await response.json();
-          console.log(recordsData)
-          navigate('/records', { state: recordsData });
-        } else {
-          setAccessError(true);
-          setTimeout(() => {
-            setAccessError('');
-          }, 3000);
-          console.log('You do not have access to view records for this patient.');
+        if (!web3) {
+          console.error('Web3 not initialized!');
+          return;
         }
+  
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        setAccount(accounts[0]);
+        const accoun=accounts[0]
+        console.log(accoun)
+        console.log("Connected account:", accoun);
+        if (!contract) {
+          console.error('Contract not initialized!');
+          return;
+        }
+  
+       const result= await contract.methods.display(owner).send({ from: accoun });
+       console.log("r1")
+        console.log(result)
+        const hexString = result.logs[0].data;
+        console.log(hexString)
+        const strippedString = hexString.slice(2);
+
+        // Convert hex string to ASCII string
+        const decodedString = web3.utils.hexToAscii(strippedString);
+        console.log(decodedString)
+        
+        // if (response.ok) {
+        //   const recordsData = await response.json();
+        //   console.log(recordsData)
+        //   navigate('/records', { state: recordsData });
+        // } else {
+        //   setAccessError(true);
+        //   setTimeout(() => {
+        //     setAccessError('');
+        //   }, 3000);
+        //   console.log('You do not have access to view records for this patient.');
+        // }
       } catch (error) {
         console.error('Error fetching records:', error);
       }

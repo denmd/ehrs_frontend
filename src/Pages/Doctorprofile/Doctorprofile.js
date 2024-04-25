@@ -3,12 +3,12 @@ import './Doctorprofile.css';
 import { useNavigate } from 'react-router-dom';
 import profileIcon from '../../assets/user_3237472.png';
 import axios from 'axios';
-
+import useWeb3 from '../../components/Metamaskbtn';
 
 const DoctorProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = localStorage.getItem('userId');
-  
+  const { web3, contract, connectMetaMask, account } = useWeb3();
   const navigate = useNavigate();
   useEffect(() => {
    
@@ -47,6 +47,11 @@ const DoctorProfile = () => {
           <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
           <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
           <li onClick={handleSignOut}>Log Out</li>
+          <li>
+            <button onClick={connectMetaMask} disabled={account.length > 0}>
+              {account.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
+            </button>
+          </li>
           
 
          

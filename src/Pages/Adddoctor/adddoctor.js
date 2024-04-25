@@ -1,17 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './adddoctor.css';
 import { useNavigate } from 'react-router-dom';
+
+//import Web3 from 'web3';
+//import Configration from "../../Contractabi/Upload.json"
+import useWeb3 from '../../components/Metamaskbtn';
 const Adddoctor = () => {
   const [searchValue, setSearchValue] = useState('');
   const [addedDoctors, setAddedDoctors] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [account, setAccount] = useState('');
+ const [account, setAccount] = useState('');
+  //const [web3, setWeb3] = useState(null);
+ // const [contract, setContract] = useState(null);
+  const { web3, contract, connectMetaMask } = useWeb3();
   const navigate = useNavigate();
-  
+  // const MyContractAddress='0x205CAB2b1ADC1af2Eca5Efb2f421F182ef4d2709'
+  // const ContractABI=Configration.abi
   useEffect(() => {
     fetchAddedDoctors();
   }, []);
-
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     const web3Instance = new Web3(window.ethereum);
+  //     setWeb3(web3Instance);
+  //     console.log(web3Instance);
+  //   }
+  // }, []);
+  // // useEffect(() => {
+  //   if (web3) {
+  //     const contractInstance = new web3.eth.Contract(ContractABI, MyContractAddress);
+  //     setContract(contractInstance);
+  //   }// eslint-disable-next-line
+  // },[web3]);
   const fetchAddedDoctors = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -31,44 +51,107 @@ const Adddoctor = () => {
       console.error('Error fetching added doctors:', error);
     }
   };
-  const handleAccessClick = async ( EthereumAddress) => {
+  const handleAccessClick = async (EthereumAddress) => {
     try {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/allow', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-userid': userId
-        },
-        body: JSON.stringify({ user : EthereumAddress }) // Include Ethereum address in the request body
-      });
-      if (!response.ok) {
-        throw new Error('Failed to update access');
+      console.log(account)
+      if (!web3) {
+        console.error('Web3 not initialized!');
+        return;
       }
-    
+
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      setAccount(accounts[0]);
+      const data=accounts[0]
+      console.log(data)
+      console.log("Connected account:", account);
+      // const web3Instance = new Web3(window.ethereum);
+      // setWeb3(web3Instance);
+
+      if (!contract) {
+        console.error('Contract not initialized!');
+        return;
+      }
+
+      await contract.methods.allow(EthereumAddress).send({ from: data });
+      console.log("Access granted successfully!");
+      await updateHasAccess(EthereumAddress, true);
+      
     } catch (error) {
       console.error('Error updating access:', error);
     }
   };
   const handleRevokeClick = async (EthereumAddress) => {
     try {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/disallow', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-userid': userId
-        },
-        body: JSON.stringify({ user: EthereumAddress }) // Include Ethereum address in the request body
-      });
-      if (!response.ok) {
-        throw new Error('Failed to revoke access');
+      console.log(account)
+      if (!web3) {
+        console.error('Web3 not initialized!');
+        return;
       }
-     
+
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      setAccount(accounts[0]);
+      const data=accounts[0]
+      console.log(data)
+      console.log("Connected account:", account);
+      // const web3Instance = new Web3(window.ethereum);
+      // setWeb3(web3Instance);
+
+      if (!contract) {
+        console.error('Contract not initialized!');
+        return;
+      }
+
+      await contract.methods.disallow(EthereumAddress).send({ from: data });
+      console.log("Access Revoked v successfully!");
+      await updateHasAccess(EthereumAddress, false);
+      
     } catch (error) {
-      console.error('Error revoking access:', error);
+      console.error('Error updating access:', error);
     }
   };
+
+  // const handleAccessClick = async ( EthereumAddress) => {
+  //   try {
+  //     const userId = localStorage.getItem('userId');
+  //     const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/allow', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'x-userid': userId
+  //       },
+  //       body: JSON.stringify({ user : EthereumAddress }) // Include Ethereum address in the request body
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to update access');
+  //     }
+    
+  //   } catch (error) {
+  //     console.error('Error updating access:', error);
+  //   }
+  // };
+  // const handleRevokeClick = async (EthereumAddress) => {
+  //   try {
+  //     const userId = localStorage.getItem('userId');
+  //     const response = await fetch('https://ehrs-backend.onrender.com/contractRoutes/disallow', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'x-userid': userId
+  //       },
+  //       body: JSON.stringify({ user: EthereumAddress }) // Include Ethereum address in the request body
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to revoke access');
+  //     }
+     
+  //   } catch (error) {
+  //     console.error('Error revoking access:', error);
+  //   }
+  // };
   
   const handleSearch = async () => {
     const userId = localStorage.getItem('userId');
@@ -97,18 +180,48 @@ const Adddoctor = () => {
     }
   };
 
-  const connectMetaMask = async () => {
+  // const connectMetaMask = async () => {
+  //   try {
+  //     const accounts = await window.ethereum.request({
+  //       method: "eth_requestAccounts",
+  //     });
+  //     if (!accounts[0]) throw new Error("No metamask account found!");
+  //     console.log(accounts[0]);
+  //     const data= accounts[0]
+  //     setAccount(data);
+  //     console.log(account)
+  //     const web3Instance = new Web3(window.ethereum);
+  //     setWeb3(web3Instance);
+  //     console.log(web3Instance)
+  //     console.log(web3)
+
+  //     const contractInstance = new web3Instance.eth.Contract(ContractABI, MyContractAddress);
+  //     setContract(contractInstance);
+  //   } catch (error) {
+  //     console.error('Error connecting to MetaMask:', error);
+  //   }
+  // };
+  const updateHasAccess = async (EthereumAddress, hasAccess) => {
     try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+      console.log("1")
+      const userId = localStorage.getItem('userId');
+      const response = await fetch('https://ehrs-backend.onrender.com/Doctorlist/updateHasAccess', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-userid': userId
+        },
+        body: JSON.stringify({ EthereumAddress, hasAccess }) // Include Ethereum address and hasAccess in the request body
       });
-      if (!accounts[0]) throw new Error("No metamask account found!");
-      console.log(accounts[0]);
-      const data= accounts[0]
-      setAccount(data);
-      console.log(account)
+      console.log("2")
+      if (!response.ok) {
+        throw new Error('Failed to update hasAccess');
+      }
+      console.log("3")
+      // Fetch the updated list of doctors
+      await fetchAddedDoctors();
     } catch (error) {
-      console.error('Error connecting to MetaMask:', error);
+      console.error('Error updating access:', error);
     }
   };
 

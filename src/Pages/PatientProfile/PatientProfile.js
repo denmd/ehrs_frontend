@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './PatientProfile.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import useWeb3 from '../../components/Metamaskbtn';
 const PatientProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
-
+  const {  connectMetaMask } = useWeb3();
   useEffect(() => {
     const sessionToken = localStorage.getItem('sessionToken');
     if (!sessionToken || !userId) {
@@ -46,18 +46,18 @@ const PatientProfile = () => {
     }
   };
 
-  const connectMetaMask = async () => {
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      if (!accounts[0]) throw new Error("No metamask account found!");
-      setAccounts(accounts);
+  // const connectMetaMask = async () => {
+  //   try {
+  //     const accounts = await window.ethereum.request({
+  //       method: "eth_requestAccounts",
+  //     });
+  //     if (!accounts[0]) throw new Error("No metamask account found!");
+  //     setAccounts(accounts);
     
-    } catch (error) {
-      console.error('Error connecting to MetaMask:', error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Error connecting to MetaMask:', error);
+  //   }
+  // };
 
   return (
     <div className="patient-profile-container">
