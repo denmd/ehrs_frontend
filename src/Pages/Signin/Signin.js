@@ -30,7 +30,7 @@ const Signin = () => {
       navigate(`/${role}profile`);
     } catch (error) {
       console.error('Login error:', error);
-      setError('Invalid username or password');
+      setError('Invalid email or password');
     }
   };
 

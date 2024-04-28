@@ -98,11 +98,20 @@ const Registermedicalprofessional = () => {
               className="registration-select"
             >
               <option value="">Select</option>
+              <option value="physician">Physician</option>
               <option value="orthopedics">Orthopedics</option>
               <option value="dermatology">Dermatology</option>
               <option value="pediatrics">Pediatrics</option>
               <option value="radiology">Radiology</option>
               <option value="ophthalmology">Ophthalmology</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Gynecology">Gynecology</option>
+              <option value="ENT">ENT</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Oncology">Oncology</option>
+              <option value="Rhematology">Rheumatology</option>
+              <option value="Gastroentrology">Gastroentrology</option>
+              
               <option value="other">Other</option>
             </select>
           </div>
