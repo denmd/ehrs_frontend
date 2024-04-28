@@ -9,6 +9,8 @@ const DoctorProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = localStorage.getItem('userId');
   const { web3, contract, connectMetaMask, account } = useWeb3();
+  const [showMetaMaskMessage, setShowMetaMaskMessage] = useState(false);
+
   const navigate = useNavigate();
   useEffect(() => {
    
@@ -16,6 +18,10 @@ const DoctorProfile = () => {
     if (!sessionToken || !userId) {
       console.error('Session token or user ID not found');
       return;
+    }
+    const storedShowMetaMaskMessage = localStorage.getItem('showMetaMaskMessage');
+    if (storedShowMetaMaskMessage) {
+      setShowMetaMaskMessage(JSON.parse(storedShowMetaMaskMessage));
     }
     fetch('https://ehrs-backend.onrender.com/patientprofile/user-profile', {
       headers: {
@@ -31,12 +37,17 @@ const DoctorProfile = () => {
     try {
 
       await axios.post('https://ehrs-backend.onrender.com/auth/signout');
+      localStorage.setItem('showMetaMaskMessage', JSON.stringify(true));
       navigate('/')
       
     } catch (error) {
       console.error('Error signing out:', error);
     }
   }
+  const handleConnectMetaMask = () => {
+    connectMetaMask();
+    localStorage.setItem('showMetaMaskMessage', JSON.stringify(false)); // Store the value in local storage
+  };
 
   return (
     <div className="doctor-profile-container">
@@ -47,11 +58,6 @@ const DoctorProfile = () => {
           <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
           <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
           <li onClick={handleSignOut}>Log Out</li>
-          <li>
-            <button onClick={connectMetaMask} disabled={account.length > 0}>
-              {account.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
-            </button>
-          </li>
           
 
          
@@ -75,6 +81,20 @@ const DoctorProfile = () => {
           </div>
         )}
       </div>
+      {showMetaMaskMessage && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Please connect to MetaMask</h2>
+            <div className='metamask-container'>
+              {account.length > 0 ? (
+                <button onClick={() => setShowMetaMaskMessage(false)}>Close</button>
+              ) : (
+                <button onClick={handleConnectMetaMask}>Connect to MetaMask</button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

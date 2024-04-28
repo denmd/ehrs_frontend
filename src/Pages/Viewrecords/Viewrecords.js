@@ -6,18 +6,18 @@ const Viewrecords = () => {
   const location = useLocation();
   const records = location.state && location.state.data ? location.state.data : location.state;
 
-  const [showPDF, setShowPDF] = useState(false);
+  const [showPDF, setShowPDF] = useState(null);
   const [selectedRecord, setSelectedRecord] = useState(null);
   
   
   const handleClick = (recordId) => {
     setSelectedRecord(recordId);
-    setShowPDF(true);
+    setShowPDF(recordId);
   };
 
 
   const handleClosePDF = () => {
-    setShowPDF(false);
+    setShowPDF(null);
   };
 
   const renderFile = (record) => {
@@ -38,15 +38,19 @@ const Viewrecords = () => {
       <h1> Medical Records  </h1>
       {records ? (
         <ul>
-         
+        
           {records.map(record => (
              <div className='record-lists'>
             <li key={record._id}>
               <h3>Title: {record.title}</h3>
               <p>Description: {record.description}</p>
-              {showPDF && selectedRecord === record._id && renderFile(record)}
+         
               {!showPDF && (
                 <button onClick={() => handleClick(record._id)}>View PDF</button>
+              )}
+              {showPDF === record._id && renderFile(record)}
+              {showPDF === record._id && (
+                <button onClick={handleClosePDF}>Close PDF</button>
               )}
             </li>
               </div>
@@ -56,10 +60,6 @@ const Viewrecords = () => {
        
       ) : (
         <p>Loading records...</p>
-      )}
-   
-      {showPDF && (
-        <button onClick={handleClosePDF}>Close PDF</button>
       )}
     </div>
   );

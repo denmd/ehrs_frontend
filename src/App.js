@@ -16,10 +16,14 @@ import DoctorProfile from './Pages/Doctorprofile/Doctorprofile';
 import MypatientProfile from './Pages/Mypatient/Mypatient';
 import FindMyPatient from './Pages/Findmypatient/FindMyPatient';
 import Viewrecords from './Pages/Viewrecords/Viewrecords.js'
+import { StateProvider } from './components/context/StateContext.js';
+
 
 function App() {
+ 
   return (
     <div>
+      <StateProvider  > 
     <Router>
       <Routes>
       
@@ -40,7 +44,9 @@ function App() {
       
       </Routes>
     </Router>
+    </StateProvider>
     </div>
+   
   );
 }
 

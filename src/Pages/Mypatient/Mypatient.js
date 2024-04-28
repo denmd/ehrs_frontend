@@ -10,6 +10,7 @@
     const userId = localStorage.getItem('userId');
     const [accessError, setAccessError] = useState(false);
     const [account, setAccount] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { web3, contract, connectMetaMask } = useWeb3();
     useEffect(() => {
@@ -84,8 +85,10 @@
        console.log(result)
         const patientId=result[0]
         console.log(patientId)
+        setLoading(true);
         const filesResponse = await axios.get(`https://ehrs-backend.onrender.com/medical-record/files/${patientId}`);
         if (filesResponse.status === 200) {
+         
           const recordsData = filesResponse.data;
           console.log('Records data:', recordsData);
           navigate('/records', { state: recordsData });
@@ -103,6 +106,9 @@
           }, 3000);
           console.log('You do not have access to view records for this patient.');
         console.error('Error fetching records:', error);
+      }
+      finally {
+        setLoading(false); // Set loading to false when fetching records is complete
       }
     };
     
@@ -145,6 +151,7 @@
 )}
 
           </div>
+          {loading && <p  className="loading-overlay">Loading records...</p>}
            {accessError &&<div className="access-error-message-container">
           <p className="access-error-message">You do not have access to view records for this patient.</p>
         </div>}

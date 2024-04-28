@@ -233,11 +233,7 @@ const Adddoctor = () => {
           <li>My Doctor</li>
           <li onClick={()=>{navigate('/addnewrecord')}}>Add Record</li>
           <li onClick={()=>{navigate('/')}}>Log Out</li>
-          <li>
-          <button onClick={connectMetaMask} disabled={account.length > 0}>
-              {account.length > 0 ? 'Connected to MetaMask' : 'Connect to MetaMask'}
-            </button>
-          </li>
+          
           
 
         </ul>
