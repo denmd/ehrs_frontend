@@ -60,6 +60,15 @@
     //     console.error('Error fetching records:', error);
     //   }
     // };
+    const handleSignOut = async () => {
+      try {
+        await axios.post('https://ehrs-backend.onrender.com/auth/signout');
+        localStorage.setItem('showMetaMaskMessage', JSON.stringify(true));
+        navigate('/');
+      } catch (error) {
+        console.error('Error signing out:', error);
+      }
+    };
     const handleViewRecords = async (EthereumAddress) => {
       try {
         const userId = localStorage.getItem('userId');
@@ -120,7 +129,7 @@
             <li onClick={()=>{navigate('/doctorprofile')}}>Profile</li>
             <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
             <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
-            <li onClick={()=>{navigate('/')}}>Log Out</li>
+            <li onClick={()=>{handleSignOut}}>Log Out</li>
 
           </ul>
         </div>
