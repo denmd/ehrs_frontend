@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <>
      <div className='image-container'>
-       <h1 className='home-heading1'>Making Health Care </h1><br/>
+       <h1 className='home-heading1'>Making Health</h1><br/>
        <h1 className='home-heading2'>Better Together </h1>
 
       <div className="button-container">

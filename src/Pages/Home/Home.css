@@ -1,5 +1,6 @@
 .image-container {
-  background-image: url('img3.jpg');
+
+  background-image: url('double_upscaled.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -11,16 +12,19 @@
 
 
 .home-heading1 {
-  color:  #1b699c;
+  color: black;
   margin-left: 100px;
   margin-top: 200px;
   
 }
 .home-heading2 {
-  color:  #1b699c;
+  color: black;
   margin-left: 100px;
+ 
 }
-
+.home-heading1, .home-heading2 {
+  line-height: 0.2; /* Adjust this value as needed */
+}
 .gradient-text {
   background-clip: text;
   -webkit-background-clip: text;
@@ -36,25 +40,27 @@
   justify-content: flex-end;
   flex-wrap:nowrap;
   align-items: flex-end;
-  padding-right: 48px;
-  top:20px;
-  right:0;
+  padding-right: 45px;
+  top:15px;
+  right: 0;
+
 }
 .round-button:hover {
   background-color: #fcf7fa;
 
 }
 .round-button {
-padding: 30px 60px; 
+padding: 20px 30px; 
 color: #030a0f;
-border: none;
+border:none;
 border-radius: 12px; 
 cursor: pointer;
 width: auto; 
 text-align: center;
-margin-right:100px;
+margin-right:50px;
 font-size: 20px;
 background-color: transparent;
+
 }
 
 
