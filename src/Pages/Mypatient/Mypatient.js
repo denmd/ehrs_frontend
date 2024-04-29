@@ -129,7 +129,7 @@
             <li onClick={()=>{navigate('/doctorprofile')}}>Profile</li>
             <li onClick={()=>{navigate('/findmypatient')}}>Find Patients</li>
             <li onClick={()=>{navigate('/mypatient')}}>My Patients</li>
-            <li onClick={()=>{handleSignOut}}>Log Out</li>
+            <li onClick={handleSignOut}>Log Out</li>
 
           </ul>
         </div>
