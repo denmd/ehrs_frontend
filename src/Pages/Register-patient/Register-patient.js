@@ -41,7 +41,7 @@ const Registerpatient = () => {
     e.preventDefault();
     try {
       // Make a POST request to your backend API endpoint
-      const response = await axios.post('http://127.0.0.1:8000/auth/patient/signup', formData);
+      const response = await axios.post('https://ehrs-backend.onrender.com/auth/patient/signup', formData);
       console.log('Registration successful:', response.data);
       navigate('/signin');
     } catch (error) {
